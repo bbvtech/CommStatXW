@@ -1,4 +1,4 @@
-# CommStatXR BETA 0.01 Released 11/16/21
+# CommStatXW BETA 0.01 for Win10 Released 11/16/21
 <h3 style="color: #4485b8;">CommStatXR BETA 0.01 add on software for JS8Call groups&nbsp;&nbsp;<img src="https://github.com/W5DMH/CommStatXR/blob/main/CommStatXBeta.png?raw=true" alt="CommStatXR 0.02" width="300" height="170" /></h3>
 
 CommstatXW is a Python version of the CommStat software designed to run on Windows 10 operating systems. 
