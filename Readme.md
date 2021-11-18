@@ -10,7 +10,7 @@ Probably best to update python a bit before starting: <br>
 when the above command completes, make sure you are in the commstatx folder and then : <br>
 
 Download the zip file to wherever you want it and unzip it and it will create the folder "commstatx", go into that folder and using command prompt terminal run install.py: 
-<b>type: python install.py </b><br>
+<b>type: python installer.py </b><br>
 After a successful install (this installs all of the necessary Python modules) in a command prompt terminal : 
 <b>type: python commstatx.py</b>    
 
