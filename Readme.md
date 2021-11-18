@@ -1,5 +1,5 @@
-# CommStatXW BETA 0.02 for Win10 Released 11/17/21
-<h3 style="color: #4485b8;">CommStatXR BETA 0.02 add on software for JS8Call groups&nbsp;&nbsp;<img src="https://github.com/W5DMH/CommStatXR/blob/main/CommStatXBeta.png?raw=true" alt="CommStatXR 0.02" width="300" height="170" /></h3>
+# CommStatXW BETA 0.03 for Win10 Released 11/18/21
+<h3 style="color: #4485b8;">CommStatXR BETA 0.03 add on software for JS8Call groups&nbsp;&nbsp;<img src="https://github.com/W5DMH/CommStatXR/blob/main/CommStatXBeta.png?raw=true" alt="CommStatXR 0.03" width="300" height="170" /></h3>
 
 CommstatXW is a Python version of the CommStat software designed to run on Windows 10 operating systems. 
 Windows 10 required Python to be installed (best installed as administrator) 
@@ -25,7 +25,7 @@ After that is complete you should be able to run CommStatx by retyping in the co
 <BR>
 
  
-<h3>Here is a link to the archive file:&nbsp;<a href="https://github.com/W5DMH/CommStatXW/raw/main/commstatx.zip" target="_blank" rel="noopener">CommStatXW BETA 0.02 for Win10 </a></h3>
+<h3>Here is a link to the archive file:&nbsp;<a href="https://github.com/W5DMH/CommStatXW/raw/main/commstatx.zip" target="_blank" rel="noopener">CommStatXW BETA 0.03 for Win10 </a></h3>
 <hr />
 
 Get CommStat Support at: <br>
