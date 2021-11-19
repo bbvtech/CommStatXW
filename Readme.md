@@ -3,7 +3,7 @@
 
 CommstatXW is a Python version of the CommStat software designed to run on Windows 10 operating systems. 
 Windows 10 required Python to be installed (best installed as administrator) 
-Here is the link https://www.python.org/ftp/python/3.10.0/python-3.10.0-amd64.exe
+Here is the link https://www.python.org/ftp/python/3.9.8/python-3.9.8-amd64.exe
 
 Probably best to update python a bit before starting: <br>
 <b>in a command prompt terminal type : python -m pip install --upgrade pip </b>
