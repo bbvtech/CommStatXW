@@ -275,7 +275,7 @@ class Ui_MainWindow(QWidget):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "CommStatXW Ver 0.06"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "CommStatXW Ver 0.062"))
         self.label.setText(_translate("MainWindow", "TextLabel Marquee"))
         self.label_2.setText(_translate("MainWindow", "TextLabel Clock"))
         self.menuEXIT.setTitle(_translate("MainWindow", "MENU"))
