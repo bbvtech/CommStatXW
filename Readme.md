@@ -1,7 +1,8 @@
 # CommStatXW 0.061 for Win10 & Win 11 Released 01/19/23
 <h3 style="color: #4485b8;">CommStatXW Ver 0.061 add on software for JS8Call groups&nbsp;&nbsp;<img src="https://github.com/W5DMH/CommStatXR/blob/main/CommStatXBeta.png?raw=true" alt="CommStatXW 0.061" width="300" height="170" /></h3>
 <br><br>
-<b>NOTE : If you are upgrading, please delete your existing commstax folder</b> 
+<b>NOTE : If you are upgrading, please delete your existing commstax folder before upgrading</b> <br>
+NOTE : Saavy users can now use "git clone https://github.com/W5DMH/CommStatXW.git" but you will need to change the folder name back to commstatx
 <br><br>
 CommstatXW is a Python version of the CommStat software designed to run on Windows 10 & Windows 11 operating systems. 
 It is required for Python to be installed (best installed as administrator) 
