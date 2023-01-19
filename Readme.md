@@ -9,7 +9,7 @@ It is required for Python to be installed (best installed as administrator)
 Here is the link https://www.python.org/ftp/python/3.9.8/python-3.9.8-amd64.exe
 
 Probably best to update python a bit before starting: (NOTE this step is not necessary for upgrades)<br>
-<b>in a command prompt terminal type : python -m pip install --upgrade pip </b> <br>
+<b>in a command prompt terminal type : python -m pip install --upgrade pip </b> (NOTE : this step is not necessary for upgrades)<br>
 
 Download the zip file to wherever you want it and unzip it and it will create the folder "commstatx", go into that folder and using command prompt terminal run install.py: <br>
 <b>type: python installer.py </b>(NOTE: this step is not necessary if upgrading)<br>
