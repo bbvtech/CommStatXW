@@ -18,7 +18,7 @@ serverport = ""
 callsign = ""
 grid = ""
 selectedgroup = ""
-
+stat_id = ""
 
 class Ui_FormStatRep(object):
     def setupUi(self, FormStatRep):
@@ -211,6 +211,8 @@ class Ui_FormStatRep(object):
         font.setPointSize(10)
         self.lineEditID.setFont(font)
         self.lineEditID.setObjectName("lineEditID")
+        self.lineEditID.setEnabled(False)
+
         self.lineEditGrid = QtWidgets.QLineEdit(FormStatRep)
         self.lineEditGrid.setGeometry(QtCore.QRect(449, 193, 281, 22))
         font = QtGui.QFont()
@@ -266,6 +268,7 @@ class Ui_FormStatRep(object):
         self.retranslateUi(FormStatRep)
         QtCore.QMetaObject.connectSlotsByName(FormStatRep)
 
+        self.find_statrep_id()
         self.getConfig()
         self.serveripad = serverip
         self.servport = int(serverport)
@@ -314,7 +317,7 @@ class Ui_FormStatRep(object):
             self.lineEditToGrp.setText(selectedgroup)
             self.lineEditGrid.setText(grid)
             randnum = random.randint(100, 999)
-            self.lineEditID.setText(str(randnum))
+            self.lineEditID.setText(stat_id)
 
 
     def transmit(self):
@@ -592,6 +595,39 @@ class Ui_FormStatRep(object):
         datafile.close()
 
         self.closeapp()
+
+    def find_statrep_id(self):
+        global stat_id
+        randnum = random.randint(100, 999)
+        stat_id = (str(randnum))
+        #stat_id = "902"
+
+        try:
+            sqliteConnection = sqlite3.connect('traffic.db3')
+            cursor = sqliteConnection.cursor()
+           # print("Connected to SQLite")
+            sqlite_select_query = 'SELECT SRid FROM StatRep_Data;'
+            cursor.execute(sqlite_select_query)
+            items = cursor.fetchall()
+
+            for item in items:
+                srid = item[0]
+                print(item)
+                if stat_id in item:
+                    print(" random number failed, recycling")
+                    cursor.close()
+                    self.find_statrep_id()
+
+
+
+            cursor.close()
+
+        except sqlite3.Error as error:
+            print("Failed to read data from sqlite table", error)
+        finally:
+            if (sqliteConnection):
+                sqliteConnection.close()
+         #       print("The SQLite connection is closed")
 
     def closeapp(self):
         self.MainWindow.close()
