@@ -284,6 +284,7 @@ class Ui_FormSettings(object):
         group2 = self.lineEdit_4.text()
         group2 = group2.upper()
         grid = self.lineEdit_5.text()
+        grid = grid.upper()
         path = self.lineEdit_6.text()
         server = self.lineEdit_7.text()
         port = self.lineEdit_8.text()

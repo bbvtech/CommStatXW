@@ -1,5 +1,5 @@
-# CommStatXW 0.061 for Win10 & Win 11 Released 01/19/23
-<h3 style="color: #4485b8;">CommStatXW Ver 0.061 add on software for JS8Call groups&nbsp;&nbsp;<img src="https://github.com/W5DMH/CommStatXR/blob/main/CommStatXBeta.png?raw=true" alt="CommStatXW 0.061" width="300" height="170" /></h3>
+# CommStatXW 0.062 for Win10 & Win 11 Released 01/19/23
+<h3 style="color: #4485b8;">CommStatXW Ver 0.062 add on software for JS8Call groups&nbsp;&nbsp;<img src="https://github.com/W5DMH/CommStatXR/blob/main/CommStatXBeta.png?raw=true" alt="CommStatXW 0.062" width="300" height="170" /></h3>
 <br><br>
 <b>NOTE : If you are upgrading, please delete your existing commstax folder before upgrading</b> <br>
 NOTE : Saavy users can "git clone https://github.com/W5DMH/CommStatXW.git" but you will need to rename folder name back to commstatx
@@ -27,7 +27,7 @@ After that is complete you should be able to run CommStatx by retyping in the co
 <BR>
 
  
-<h3>Here is a link to the archive file:&nbsp;<a href="https://github.com/W5DMH/CommStatXW/raw/main/commstatx.zip" target="_blank" rel="noopener">CommStatXW 0.061 for Win10 & Win11 </a></h3>
+<h3>Here is a link to the archive file:&nbsp;<a href="https://github.com/W5DMH/CommStatXW/raw/main/commstatx.zip" target="_blank" rel="noopener">CommStatXW 0.062 for Win10 & Win11 </a></h3>
 <hr />
 
 Get CommStat Support at: <br>
