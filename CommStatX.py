@@ -260,7 +260,8 @@ class Ui_MainWindow(QWidget):
         watch2 = QtCore.QFileSystemWatcher(self)
         watch2.addPath(finalpath3)
         print(finalpath3)
-        watch2.fileChanged.connect(self.directed)
+        watch2.fileChanged.connect(self.twice_load)
+
 
         #finalpath2 = os.path.abspath(os.getcwd())
         #finalpath4 = finalpath2+"\\traffic.db3"
@@ -299,7 +300,9 @@ class Ui_MainWindow(QWidget):
 
 
 
-
+    def twice_load(self):
+        self.directed()
+        QtCore.QTimer.singleShot(2000, self.directed)
 
 
 
