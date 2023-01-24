@@ -5,7 +5,7 @@ import re
 from time import strftime
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtCore import QDateTime, Qt, QDate
-from PyQt5.QtWidgets import QMessageBox, QDialog
+from PyQt5.QtWidgets import QMessageBox
 from PyQt5 import QtCore, QtGui, QtWidgets
 import random
 import datetime
@@ -22,19 +22,12 @@ grid = ""
 selectedgroup = ""
 acklist = ""
 mapper = ""
+index = ""
+
 class Ui_FormRoster(object):
     def setupUi(self, FormRoster):
-        #setWindowsFlags(Qt::WindowCloseButtonHint, false);
-        #self.MainWindow = FormRoster
-        #self.wnd = FormRoster
-
-
+        self.MainWindow = FormRoster
         FormRoster.setObjectName("FormRoster")
-        #self.MainWindow.closeEvent = self.closeEvent()
-        #FormRoster.aboutToQuit.connect(self.closeEvent)
-        #self.closeButton.clicked.connect(self.accept)
-        #FormRoster.close = (self.closeEvent)
-        #app.appa.connect(FormRoster.closeEvent)
         FormRoster.resize(700, 600)
         font = QtGui.QFont()
         font.setPointSize(10)
@@ -87,7 +80,7 @@ class Ui_FormRoster(object):
         self.servport = int(serverport)
         self.api = js8callAPIsupport.js8CallUDPAPICalls((self.serveripad),
                                                         int(self.servport))
-        self.pushButton_2.clicked.connect(self.cancel)
+        self.pushButton_2.clicked.connect(self.closeapp)
         self.pushButton.clicked.connect(self.transmit)
 
 
@@ -100,11 +93,7 @@ class Ui_FormRoster(object):
         self.pushButton.setText(_translate("FormRoster", "Transmit"))
         self.label_2.setText(_translate("FormRoster", "Callsigns Selected for Check in ACK"))
         self.label.setText(_translate("FormRoster", "Current Active Group : "+selectedgroup))
-        self.pushButton_2.setText(_translate("FormRoster", "Cancel"))
-        # enable custom window hint
-
-        #self.setWindowFlag(QtCore.Qt.WindowCloseButtonHint, False)
-
+        self.pushButton_2.setText(_translate("FormRosterself.moves_widget.clearSelection()", "Cancel"))
 
     def getConfig(self):
         global serverip
@@ -128,7 +117,7 @@ class Ui_FormRoster(object):
             selectedgroup = format(userinfo["selectedgroup"])
             labeltext = ("Currently Active Group : " + selectedgroup)
             print(labeltext)
-            self.label.setText("net text here")
+            self.label.setText("net tezt here")
             #self.gridLayout.addWidget(self.label, 0, 2, 1, 1)
             self.label.setText( labeltext)
 
@@ -205,13 +194,15 @@ class Ui_FormRoster(object):
         #print("Mapping completed")
         self.loadcheckins()
         #QtCore.QTimer.singleShot(30000, self.mapperWidget)
-        QtCore.QTimer.singleShot(30000, self.run_mapper)
+        #QtCore.QTimer.singleShot(30000, self.run_mapper)
 
     def run_mapper(self):
         global mapper
         mapper.deleteLater()
         print("stopped previous map")
         self.mapperWidget()
+        
+        
 
     def loadcheckins(self):
 
@@ -262,6 +253,7 @@ class Ui_FormRoster(object):
         self.tableWidget.verticalHeader().setVisible(False)
         self.tableWidget.sortItems(0, QtCore.Qt.DescendingOrder)
         self.gridLayout.addWidget(self.tableWidget, 1, 0, 1, 1)
+        print("loadcheckins complete")
 
         #print("Load Bulletins & Marquee Completed")
         #QtCore.QTimer.singleShot(30000, self.loadbulletins)
@@ -270,6 +262,7 @@ class Ui_FormRoster(object):
 
 
     def on_Click(self):
+        global index
         global acklist
         # #selected cell value.
         index=(self.tableWidget.selectionModel().currentIndex())
@@ -296,7 +289,7 @@ class Ui_FormRoster(object):
 
             return
         group = "@"+selectedgroup
-        message = "" + group + " " + comments + ""
+        message = "" + group + " MSG ," + comments + ""
         #message = ""+group + " ," + comments + ""
         messageType = js8callAPIsupport.TYPE_TX_SEND
         messageString = message
@@ -313,23 +306,20 @@ class Ui_FormRoster(object):
 
         self.sendMessage(messageType, messageString)
 
-        #self.closeapp()
-        self.closeEvent()
+        self.closeapp()
 
     def closeapp(self):
-        mapper.deleteLater()
-        print("closing roster with TX")
-        #self.MainWindow.close()
+        global acklist
+        self.lineEdit.setText("")
+        acklist = ""
+        
+        
+        
+
+        
 
     def sendMessage(self, messageType, messageText):
         self.api.sendMessage(messageType, messageText)
-
-    def closeEvent(self):
-        print('User has pressed the close button')
-
-    def cancel(self):
-        print('User has cancelled the process')
-        self.lineEdit.setText("")
 
 
 
@@ -342,4 +332,3 @@ if __name__ == "__main__":
     ui.setupUi(FormRoster)
     FormRoster.show()
     sys.exit(app.exec_())
-

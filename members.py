@@ -13,8 +13,7 @@ import js8callAPIsupport
 import folium
 import sqlite3
 import io
-
-
+from datetime import timedelta
 serverip = ""
 serverport = ""
 callsign = ""
@@ -50,9 +49,10 @@ class Ui_FormMembers(object):
         self.gridLayout.addWidget(self.label, 0, 1, 1, 1)
         self.gridLayout_2.addLayout(self.gridLayout, 0, 0, 1, 1)
         self.getConfig()
+        print("loading members and mapper widget")
 
         self.mapperWidget()
-        #self.loadmembers()
+        self.loadmembers()
 
         #self.MainWindow.setWindowFlags(
         #    QtCore.Qt.Window |
@@ -68,10 +68,12 @@ class Ui_FormMembers(object):
 
 
 
+
     def retranslateUi(self, FormMembers):
         _translate = QtCore.QCoreApplication.translate
         FormMembers.setWindowTitle(_translate("FormMembers", "CommStatX Group Members List"))
         #self.label.setText(_translate("FormMembers", labeltext))
+        
 
     def getConfig(self):
         global serverip
@@ -104,6 +106,8 @@ class Ui_FormMembers(object):
 
     def mapperWidget(self):
         global mapper
+        flag = ""
+        print("starting mapping")
         mapper = QWebEngineView()
         coordinate = (38.8199286, -90.4782551)
         m = folium.Map(
@@ -114,6 +118,7 @@ class Ui_FormMembers(object):
         )
 
         try:
+            print("starting data pull for map")
             sqliteConnection = sqlite3.connect('traffic.db3')
             cursor = sqliteConnection.cursor()
 
@@ -129,6 +134,17 @@ class Ui_FormMembers(object):
                 glon = item[1]
                 call = item[2]
                 utc = item[3]
+                    
+                
+                now = QDateTime.currentDateTime()
+                recent = now.addSecs(-60 * 60)
+                date = (recent.toUTC().toString("yyyy-MM-dd HH:mm:ss"))
+                #print(date)
+                #print(utc)
+                if utc > date :
+                    #print ("Member List opened : This Member station heard in the last hour : "+call, utc, date)
+                    #print(colored('hello', 'red'), colored('world', 'green'))
+                    flag = "Y"
 
                 pinstring = (" Last Heard :")
                 html = '''<HTML> <BODY><p style="color:blue;font-size:14px;">%s<br>
@@ -142,9 +158,17 @@ class Ui_FormMembers(object):
                 popup = folium.Popup(iframe,
                                      min_width=100, max_width=160)
                 #folium.Marker(location=[glat, glon], popup=popup).add_to(m)
-                folium.CircleMarker(radius=6,fill=True, fill_color="darkblue",
+                if "Y" in flag:
+                    #print("found Yes flag "+flag+" "+call+" " +utc)
+                    
+                    folium.CircleMarker(color = "green", radius=10,fill=True, fill_color="green",
                  location=[glat, glon], popup=popup, icon=folium.Icon(color="red")).add_to(m)
+                else:
+                    folium.CircleMarker( radius=6,fill=True, fill_color="darkblue",
+                 location=[glat, glon], popup=popup, icon=folium.Icon(color="red")).add_to(m)
+                    #print("Should not be flagged :"+flag)
 
+            
 
             cursor.close()
 
@@ -164,16 +188,17 @@ class Ui_FormMembers(object):
         #self.gridLayout.addWidget()widget = QWebEngineView()
         mapper.setHtml(data.getvalue().decode())
         self.gridLayout_2.addWidget(mapper, 2, 0, 1, 2)
-        #print("Mapping completed")
+        print("Mapping completed")
         self.loadmembers()
         #QtCore.QTimer.singleShot(30000, self.mapperWidget)
-        QtCore.QTimer.singleShot(180000, self.run_mapper)
+        #QtCore.QTimer.singleShot(90000, self.run_mapper)
 
     def run_mapper(self):
         global mapper
         mapper.deleteLater()
         print("stopped previous map")
         self.mapperWidget()
+
 
     def loadmembers(self):
         #self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
@@ -203,10 +228,11 @@ class Ui_FormMembers(object):
         self.tableWidget.verticalHeader().setVisible(False)
         self.tableWidget.sortItems(0, QtCore.Qt.DescendingOrder)
         self.gridLayout.addWidget(self.tableWidget, 2, 1, 1, 3)
-        
 
         #print("Load Bulletins & Marquee Completed")
         #QtCore.QTimer.singleShot(30000, self.loadbulletins)
+
+
 
 
 

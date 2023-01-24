@@ -12,6 +12,12 @@ TYPE_WINDOWRAISE = 'WINDOW.RAISE'
 TXT_ALLCALLGRID = '@APRSIS GRID '
 TXT_APRSIS = '@APRSIS'
 TYPE_STATION_GETCALLSIGN = 'STATION.GET_CALLSIGN'
+#TYPE_STATION_SET_INFO = 'STATION.SET_INFO'
+STN_SET_INFO = "STATION.SET_INFO" # - Set the current station qth
+
+#message = "{'type': 'STATION.GET_STATUS', 'value': '', 'params': {'_ID': '1645105873058'}}"
+
+
 UDP_ENABLED = False
 MSG_ERROR = 'ERROR'
 MSG_INFO = 'INFO'
@@ -86,7 +92,13 @@ class js8CallUDPAPICalls:
         print('Sending Grid to JS8CAll...', gridText)
         self.sendMessageAndClose(TYPE_STATION_SETGRID, gridText)
         UDP_ENABLED = False
-
+    
+    def sendInfoToJS8Call(self, string1, string2):
+        print('Sending New Callsign Data to JS8CAll INFO Field')
+        self.sendMessageAndClose(STN_SET_INFO, string2)
+        UDP_ENABLED = False
+        
+        
     def sendGridToALLCALL(self, gridText, gpsStatus):
         if gpsStatus.startswith('Error'):
             #self.showMessage(MSG_ERROR, gpsStatus)

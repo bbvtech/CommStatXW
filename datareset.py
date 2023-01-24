@@ -71,8 +71,6 @@ class Ui_FormReset(object):
         global callsign
         global selectedgroup
         global path
-        global group2
-        global group1
         if os.path.exists("config.ini"):
             config_object = ConfigParser()
             config_object.read("config.ini")
@@ -89,14 +87,11 @@ class Ui_FormReset(object):
             selectedgroup = format(userinfo["selectedgroup"])
             labeltext = ("Currently Active Group : " + selectedgroup)
             print(labeltext)
-            self.label.setText("net text here")
+            self.label.setText("net tezt here")
             #self.gridLayout.addWidget(self.label, 0, 2, 1, 1)
             self.label.setText( labeltext)
 
     def reset_all(self):
-        global group1
-        global group2
-        global selectedgroup
         print("resetting all")
         conn = sqlite3.connect("traffic.db3")
         cur = conn.cursor()
@@ -106,7 +101,6 @@ class Ui_FormReset(object):
         cur.execute("DROP TABLE IF EXISTS  heard_Data")
         cur.execute("DROP TABLE IF EXISTS  bulletins_Data")
         cur.execute("DROP TABLE IF EXISTS  marquees_Data")
-        print("Done Dropping tables") 
 
         cur.execute("CREATE TABLE IF NOT EXISTS bulletins_Data (Id integer primary key autoincrement, datetime TEXT, groupid TEXT, idnum TEXT UNIQUE, callsign TEXT, message TEXT)")
         cur.execute("CREATE TABLE IF NOT EXISTS checkins_Data (id INTEGER PRIMARY KEY autoincrement, date TEXT, time TEXT, callsign TEXT UNIQUE, groupname TEXT, traffic TEXT, gridlat DOUBLE, gridlong Double)")
@@ -114,41 +108,38 @@ class Ui_FormReset(object):
         cur.execute("CREATE TABLE IF NOT EXISTS heard_Data(id INTEGER PRIMARY KEY, date TEXT NOT NULL, callsign TEXT UNIQUE NOT NULL, gridlat DOUBLE NOT NULL, gridlong DOUBLE NOT NULL)")
         cur.execute("CREATE TABLE IF NOT EXISTS members_Data(id INTEGER PRIMARY KEY, date TEXT, callsign TEXT UNIQUE, groupname1 TEXT,groupname2 TEXT, gridlat DOUBLE, gridlong Double )")
         cur.execute("CREATE TABLE IF NOT EXISTS marquees_Data(id INTEGER PRIMARY KEY, idnum TEXT UNIQUE NOT NULL, callsign TEXT, groupname TEXT, date TEXT, color TEXT, message TEXT)")
-        print("Done Creating Tables")
-        
+
         mtstr1 = "2021-11-02 19:04:12"
         mtstr2 = "0000"
         mtstr7 = "1"
-        mtstr9 = "2"
         mtstr8 = "NO MESSAGE YET"
-        grpname = selectedgroup
-        #grpname2 = group2
+        grpname = "AMRRON"
         callsign = "W5DMH"
         #cur.execute("INSERT OR REPLACE INTO marquees_Data (date, idnum, groupname, color, message) VALUES ('" + mtstr1 + "','" + mtstr2 + "','" + mtstr7 + "','" + grpname + "','" + mtstr8 + "')")
         #cur.execute("INSERT OR REPLACE INTO marquees_Data (date, idnum, callsign, groupname, color, message) VALUES (mtstr1,mtstr2,mtstr7,grpname,mtstr8 + "')")
 
         cur.execute("INSERT OR REPLACE INTO marquees_Data (date, idnum, callsign, groupname, color, message) VALUES(?, ?, ?, ?, ?, ?  )",(mtstr1, mtstr2, callsign, grpname, mtstr7, mtstr8))
         conn.commit()
-        print("Done creating Marquee")
-        #cur.execute("INSERT OR REPLACE INTO marquees_Data (date, idnum, callsign, groupname, color, message) VALUES(?, ?, ?, ?, ?, ?  )",(mtstr1, mtstr2, callsign, grpname2, mtstr2, mtstr8))
-        #conn.commit()
-        #print("Done creating NOGRP Marquee")
 
         timestr = time.strftime("%Y%m%d-%H%M%S")
-        os.rename(path+"\DIRECTED.TXT", path+"\DIRECTEDBACKUP"+timestr+".TXT")
-        f = open(path+"\DIRECTED.TXT", "a")
+        os.rename(path+"/DIRECTED.TXT", path+"/DIRECTEDBACKUP"+timestr+".TXT")
+        f = open(path+"/DIRECTED.TXT", "a")
         #f.write("Now the file has more content!")
         f.close()
-        self.killcommstatx()
+        self.closeapp()
+        
+        #self.killcommstatx()
 
 
     def killcommstatx(self):
-        PROCNAME = "python3.exe"
+        PROCNAME = "CommStatX.exe"
         for proc in psutil.process_iter():
             # check whether the process name matches
             if proc.name() == PROCNAME:
-                print("Killing CommStatx")
                 proc.kill()
+                
+    def closeapp(self):
+        self.MainWindow.close()
 
 
 

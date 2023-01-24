@@ -17,7 +17,7 @@ serverport = ""
 callsign = ""
 grid = ""
 selectedgroup = ""
-
+marq_id= ""
 
 class Ui_FormMarquee(object):
     def setupUi(self, FormMarquee):
@@ -73,6 +73,8 @@ class Ui_FormMarquee(object):
 
         self.retranslateUi(FormMarquee)
         QtCore.QMetaObject.connectSlotsByName(FormMarquee)
+        
+        self.find_marq_id()
 
         self.getConfig()
         self.serveripad = serverip
@@ -164,8 +166,8 @@ class Ui_FormMarquee(object):
 
         group = "@"+selectedgroup
         randnum = random.randint(100, 999)
-        idrand = str(randnum)
-
+        #idrand = str(randnum)
+        idrand = marq_id
         message = ""+ group + " ," + idrand + ","+ color +"," +comments + ",{*%}"
         messageType = js8callAPIsupport.TYPE_TX_SEND
         messageString = message
@@ -197,6 +199,39 @@ class Ui_FormMarquee(object):
 
 
         self.closeapp()
+        
+    def find_marq_id(self):
+        global marq_id
+        randnum = random.randint(100, 999)
+        marq_id = (str(randnum))
+        #stat_id = "902"
+
+        try:
+            sqliteConnection = sqlite3.connect('traffic.db3')
+            cursor = sqliteConnection.cursor()
+           # print("Connected to SQLite")
+            sqlite_select_query = 'SELECT idnum FROM marquees_Data ;'
+            cursor.execute(sqlite_select_query)
+            items = cursor.fetchall()
+
+            for item in items:
+                srid = item[0]
+                #print(item)
+                if marq_id in item:
+                    print("Bulletin random number failed, recycling and trying again")
+                    cursor.close()
+                    self.find_marq_id()
+
+
+
+            cursor.close()
+
+        except sqlite3.Error as error:
+            print("Failed to read data from sqlite table", error)
+        finally:
+            if (sqliteConnection):
+                sqliteConnection.close()
+         #       print("The SQLite connection is closed")
 
     def closeapp(self):
         self.MainWindow.close()

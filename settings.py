@@ -1,12 +1,16 @@
+#!/usr/bin/env python3
 from configparser import ConfigParser
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QRegExp
 from PyQt5.QtGui import QRegExpValidator
 from PyQt5.QtWidgets import QMessageBox
-from PyQt5.QtCore import QDateTime, Qt
-import sqlite3
 import os.path
+import sqlite3
 import random
+from PyQt5.QtCore import QDateTime, Qt
+import re
+
+
 from os.path import exists
 selgrp = ""
 
@@ -267,8 +271,6 @@ class Ui_FormSettings(object):
             self.lineEdit_8.setText(str(port))
 
     def setInfo(self):
-        randnum = random.randint(100, 999)
-        idrand = str(randnum)
         # printing the form information
         print("legal Callsign : {0}".format(self.lineEdit.text()))
         print("Callsign Suffix : {0}".format(self.lineEdit_2.text()))
@@ -279,6 +281,7 @@ class Ui_FormSettings(object):
         callsign = self.lineEdit.text()
         callsign = callsign.upper()
         callsignSuffix = self.lineEdit_2.text()
+        callsignSuffix = callsignSuffix.upper()
         group1 = self.lineEdit_3.text()
         group1 = group1.upper()
         group2 = self.lineEdit_4.text()
@@ -290,6 +293,8 @@ class Ui_FormSettings(object):
         port = self.lineEdit_8.text()
         global selgrp
         if (self.radioButton.isChecked() == True):
+            randnum = random.randint(100, 999)
+            idrand = str(randnum)
             selgrp = group1
             now = QDateTime.currentDateTime()
             date = (now.toUTC().toString("yyyy-MM-dd HH:mm:ss"))
@@ -300,9 +305,15 @@ class Ui_FormSettings(object):
                 "INSERT OR REPLACE INTO marquees_Data (idnum,callsign,groupname,date,color, message) VALUES(?,?,?,?,?,?)",
                 (idrand, callsign, selgrp, date, "green", "initial comment"))
             conn.commit()
+            
             print(selgrp)
+            
+        
+        
 
         if (self.radioButton_2.isChecked() == True):
+            randnum = random.randint(100, 999)
+            idrand = str(randnum)
             if len(group2) < 4:
                 msg = QMessageBox()
                 msg.setWindowTitle("CommStatX error")
@@ -323,7 +334,6 @@ class Ui_FormSettings(object):
             conn.commit()
 
 
-
             print(selgrp)
 
         if len(callsign) < 4:
@@ -341,7 +351,8 @@ class Ui_FormSettings(object):
             msg.setIcon(QMessageBox.Critical)
             msg.setWindowFlag(QtCore.Qt.WindowStaysOnTopHint)
             x = msg.exec_()  # this will show our messagebox
-            return
+            return        
+        
         if len(group2) > 0 and len(group2) < 4:
             msg = QMessageBox()
             msg.setWindowTitle("CommStatX error")
@@ -350,6 +361,15 @@ class Ui_FormSettings(object):
             msg.setWindowFlag(QtCore.Qt.WindowStaysOnTopHint)
             x = msg.exec_()  # this will show our messagebox
             return
+        if (bool(re.match('[A-Z]+$', group2))) == False:
+            msg = QMessageBox()
+            msg.setWindowTitle("CommStatX error")
+            msg.setText("Capital letters required for Group 2!")
+            msg.setIcon(QMessageBox.Critical)
+            msg.setWindowFlag(QtCore.Qt.WindowStaysOnTopHint)
+            x = msg.exec_()  # this will show our messagebox
+            return
+        
         if len(grid) < 4:
             msg = QMessageBox()
             msg.setWindowTitle("CommStatX error")
@@ -358,6 +378,7 @@ class Ui_FormSettings(object):
             msg.setWindowFlag(QtCore.Qt.WindowStaysOnTopHint)
             x = msg.exec_()  # this will show our messagebox
             return
+
         if len(path) < 8:
             msg = QMessageBox()
             msg.setWindowTitle("CommStatX error")
@@ -407,6 +428,8 @@ class Ui_FormSettings(object):
         # !! ReGex implementation !!
         # For more details about ReGex search on google: regex rules or something similar
         reg_ex = QRegExp("[a-z-A-Z0-9_]+")  # @"[^A-Za-z0-9\s]+"
+        #reg_ex = QRegExp("[A-Z0-9_]+")  # @"[^A-Za-z0-9\s]+"
+        
         le_callsign_validator = QRegExpValidator(reg_ex, le_callsign)
         le_callsign.setValidator(le_callsign_validator)
         # !! ReGex implementation End !!

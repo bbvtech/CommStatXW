@@ -32,7 +32,8 @@ from roster import Ui_FormRoster
 from statack import Ui_FormStatack
 from datareset import Ui_FormReset
 from about import Ui_FormAbout
-
+from addcall import Ui_FormAddCall
+import platform
 
 callsign = ""
 callsignSuffix = ""
@@ -46,13 +47,23 @@ directedcounter = 0
 statreprwcnt = 0
 bulletinrwcnt = 0
 marqueerwcnt = 0
-
-mapper =""
+heardrwcnt = 0
+dbcounter = 0
+mapper = ""
+directedsize = 0
+data = ""
+map_flag = 0
+OS = ""
+bull1 = 1
+bull2 = 3
 
 
 class Ui_MainWindow(QWidget):
     def setupUi(self, MainWindow):
         global marqueecolor
+        global bull1
+        global bull2
+        self.oscheck()
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1024, 768)
         icon = QtGui.QIcon()
@@ -111,20 +122,42 @@ class Ui_MainWindow(QWidget):
         self.plainTextEdit = QtWidgets.QPlainTextEdit(self.centralwidget)
         self.plainTextEdit.setObjectName("plainTextEdit")
         self.gridLayout_2.addWidget(self.plainTextEdit, 2, 0, 1, 4)
-
+        
 
 
         #self.widget = QtWidgets.QWidget(self.centralwidget)
-        #self.widget.setObjectName("widget")
+        #self.setObjectName("widget")
         #self.gridLayout_2.addWidget(self.widget, 3, 0, 1, 1)
+        #self.mapperWidget()
+        #mapper.setHtml(data.getvalue().decode())
+        #self.gridLayout_2.addWidget(mapper, 3, 0, 1, 1)
+        
+        
+        
+        
+        self.widget = QWebEngineView(self.centralwidget)
+        self.setObjectName("widget")
+        self.gridLayout_2.addWidget(self.widget, 3, 0, 1, 1)
+        
+        #print("Mapping completed")
+        
+        
+        
+        
+        
+        
+        
+        
 
-        self.mapperWidget()
 
+        #Bulletins Widget
         self.tableWidget_2 = QtWidgets.QTableWidget(self.centralwidget)
         self.tableWidget_2.setObjectName("tableWidget_2")
         self.tableWidget_2.setColumnCount(0)
         self.tableWidget_2.setRowCount(0)
-        self.gridLayout_2.addWidget(self.tableWidget_2, 3, 1, 1, 3)
+        #self.gridLayout_2.addWidget(self.tableWidget_2, 3, 1, 1, 3)
+        self.gridLayout_2.addWidget(self.tableWidget_2, 3, bull1, 1, bull2)
+        
         #self.loadbulletins()
 
         self.gridLayout_2.setRowStretch(0, 0);
@@ -178,7 +211,12 @@ class Ui_MainWindow(QWidget):
         self.actionFLASH_BULLETIN.setObjectName("actionFLASH_BULLETIN")
         self.actionSETTINGS = QtWidgets.QAction(MainWindow)
         self.actionSETTINGS.setObjectName("actionSETTINGS")
-        self.actionDATA_RESET = QtWidgets.QAction(MainWindow)
+        
+        self.actionADDCALL = QtWidgets.QAction(MainWindow)
+        self.actionADDCALL.setObjectName("actionADDCALL")
+        
+        
+        self.actionDATA_RESET = QtWidgets.QAction(MainWindow)         
         self.actionDATA_RESET.setObjectName("actionDATA_RESET")
         self.actionHELP = QtWidgets.QAction(MainWindow)
         self.actionHELP.setObjectName("actionHELP")
@@ -213,6 +251,9 @@ class Ui_MainWindow(QWidget):
         self.menuEXIT.addSeparator()
         self.menuEXIT.addAction(self.actionSETTINGS)
         self.actionSETTINGS.triggered.connect(self.settings_window)
+        
+        self.menuEXIT.addAction(self.actionADDCALL)
+        self.actionADDCALL.triggered.connect(self.addcall_window)
 
 
         self.menuEXIT.addAction(self.actionDATA_RESET)
@@ -240,29 +281,35 @@ class Ui_MainWindow(QWidget):
         self.timeLine.frameChanged.connect(self.setText)
         self.timeLine.finished.connect(self.nextNews)
         self.signalMapper = QtCore.QSignalMapper(self)
+        
+        
 
-        self.loadbulletins()
-        self.databasesize()
+        #time.sleep(1)
+
+        #self.loadbulletins()
+        #self.databasesize()
         self.feed()
-        self.directed()
+        #self.directed()
+        self.filetest()
 
 
         finalpath = os.path.normpath(path)
-        watch = QtCore.QFileSystemWatcher(self)
-        watch.addPath(finalpath)
-        print(finalpath)
-        watch.fileChanged.connect(self.thread)
+        #print(finalpath)
+        #watch = QtCore.QFileSystemWatcher(self)
+        #watch.addPath(finalpath)
+        #print("this is finalpath"+finalpath)
+        #watch.fileChanged.connect(self.thread)
+        #print("JS8 file changed")
 
 
 
         finalpath2 = os.path.abspath(os.getcwd())
-        finalpath3 = finalpath2+"\\copyDIRECTED.TXT"
-        watch2 = QtCore.QFileSystemWatcher(self)
-        watch2.addPath(finalpath3)
-        print(finalpath3)
-        watch2.fileChanged.connect(self.twice_load)
-
-
+        finalpath3 = finalpath2+"/copyDIRECTED.TXT"
+        #watch2 = QtCore.QFileSystemWatcher(self)
+        #watch2.addPath(finalpath3)
+        #print("this is finalpath3 "+finalpath3)
+        #watch2.fileChanged.connect(self.directed)
+        
         #finalpath2 = os.path.abspath(os.getcwd())
         #finalpath4 = finalpath2+"\\traffic.db3"
         #watch3 = QtCore.QFileSystemWatcher(self)
@@ -276,7 +323,7 @@ class Ui_MainWindow(QWidget):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "CommStatXW Ver 0.063"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "CommStatX Ver 0.09"))
         self.label.setText(_translate("MainWindow", "TextLabel Marquee"))
         self.label_2.setText(_translate("MainWindow", "TextLabel Clock"))
         self.menuEXIT.setTitle(_translate("MainWindow", "MENU"))
@@ -291,6 +338,7 @@ class Ui_MainWindow(QWidget):
         self.actionNEW_MARQUEE.setText(_translate("MainWindow", "NEW MARQUEE"))
         self.actionFLASH_BULLETIN.setText(_translate("MainWindow", "FLASH BULLETIN"))
         self.actionSETTINGS.setText(_translate("MainWindow", "SETTINGS"))
+        self.actionADDCALL.setText(_translate("MainWindow", "ADDCALL"))
         self.actionDATA_RESET.setText(_translate("MainWindow", "DATA RESET"))
         self.actionABOUT.setText(_translate("MainWindow", "ABOUT"))
         self.actionHELP.setText(_translate("MainWindow", "HELP"))
@@ -298,11 +346,20 @@ class Ui_MainWindow(QWidget):
 
 
 
-
-
-    def twice_load(self):
-        self.directed()
-        QtCore.QTimer.singleShot(2000, self.directed)
+    def oscheck(self):
+        global OS
+        global bull1
+        global bull2
+        pios = "aarch64"
+        if  pios in (platform.platform()):
+            print("This is Pi 64bit OS")
+            OS = "pi"
+            bull1 = 0
+            bull2 = 4
+    #sudo apt install ./python3-pyqt5.qtwebengine_5.15.2-2_arm64.deb
+        else:
+            print("This is not 64bit PiOS")
+            OS = "Mint"
 
 
 
@@ -339,6 +396,24 @@ class Ui_MainWindow(QWidget):
         #print(selectedgroup)
         if (callsign =="NOCALL"):
             self.settings_window()
+            
+    def filetest(self):
+        global path
+        global directedsize    # path
+        #print("started file test")
+        pathlocal = path
+        status = os.stat(path)
+        statussize = status.st_size
+        #print("Here is the current Directed size : "+str(status.st_size))
+        #print("Here is the previous Directed size :"+str(directedsize))
+        if statussize != directedsize:
+            directedsize = statussize
+            self.directed()
+            QtCore.QTimer.singleShot(3000, self.directed)
+            #print("ran second direct") 
+            QtCore.QTimer.singleShot(30000, self.filetest)
+        else:
+            QtCore.QTimer.singleShot(30000, self.filetest)
 
     def help_window(self):
         dialog = QtWidgets.QDialog()
@@ -355,6 +430,14 @@ class Ui_MainWindow(QWidget):
         dialog.ui.setupUi(dialog)
         dialog.exec_()
         #dialog.show()
+        
+    def addcall_window(self):
+        dialog = QtWidgets.QDialog()
+        dialog.ui = Ui_FormAddCall()
+        dialog.ui.setupUi(dialog)
+        dialog.exec_()
+        #dialog.show()
+
 
 
     def js8email_window(self):
@@ -405,25 +488,28 @@ class Ui_MainWindow(QWidget):
 
 
     def members_window(self):
-        dialog = QtWidgets.QDialog()
-        dialog.ui = Ui_FormMembers()
-        dialog.ui.setupUi(dialog)
-        dialog.exec_()
+        #dialog = QDialog()
+        #dialog.ui = Ui_FormMembers()
+        #dialog.ui.setupUi(dialog)
+        #dialog.exec_()
         #dialog.show()
+        call(["python3", "members.py"])
 
     def heard_window(self):
-        dialog = QtWidgets.QDialog()
-        dialog.ui = Ui_FormHeard()
-        dialog.ui.setupUi(dialog)
-        dialog.exec_()
+        #dialog = QtWidgets.QDialog()
+        #dialog.ui = Ui_FormHeard()
+        #dialog.ui.setupUi(dialog)
+        #dialog.exec_()
         #dialog.show()
+        call(["python3", "heardlist.py"])
 
     def roster_window(self):
-        dialog = QtWidgets.QDialog()
-        dialog.ui = Ui_FormRoster()
-        dialog.ui.setupUi(dialog)
-        dialog.exec_()
+        #dialog = QtWidgets.QDialog()
+        #dialog.ui = Ui_FormRoster()
+        #dialog.ui.setupUi(dialog)
+        #dialog.exec_()
         #dialog.show()
+        call(["python3", "roster.py"])
 
 
     def statack_window(self):
@@ -448,7 +534,7 @@ class Ui_MainWindow(QWidget):
         #dialog.show()
 
     def loadData(self):
-        print("load data restarted")
+        #print("\n load data restarted")
         self.readconfig()
         #self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
         connection = sqlite3.connect('traffic.db3')
@@ -490,10 +576,41 @@ class Ui_MainWindow(QWidget):
         # self.tableWidget = QtWidgets.QTableWidget()
         self.tableWidget.sortItems(0, QtCore.Qt.DescendingOrder)
         #self.gridLayout_2.addWidget(self.tableWidget, 1, 0, 1, 4)
-        print("loadData completed")
+        #print("loadData completed \n \n")
+        #self.filetest()
         connection.close()
+        
+    
 
 
+    def directedpi(self):
+        global directedcounter
+        with open(path) as f, open('output.txt', 'w') as fout:
+            fout.writelines(reversed(f.readlines()))
+        text = open('output.txt').read()
+        text_edit_widget = QPlainTextEdit(text)
+        # text_edit_widget.setStyleSheet(
+        #     """QPlainTextEdit {background-color: #7E7C7A;
+        #                      color: #FCF55F;
+        #                     text-decoration: underline;
+        #                    font-family: Courier;}""")
+        if directedcounter > 1:
+            self.plainTextEdit.setPlainText(text)
+        else:
+            self.plainTextEdit.setPlainText(text)
+            #self.gridLayout_2.addWidget(text_edit_widget, 2, 0, 1, 4)
+        directedcounter += 1
+        print("Directed completed : counter :"+str(directedcounter))
+
+        self.loadbulletins()
+        self.loadData()
+        #self.mapperWidget()
+        self.run_mapper()
+        self.thread()
+        
+        self.label_3.setText(" Active Group : "+selectedgroup)
+        #QtCore.QTimer.singleShot(30000, self.directed)
+        
     def directed(self):
         global directedcounter
         with open(path) as f, open('output.txt', 'w') as fout:
@@ -515,14 +632,20 @@ class Ui_MainWindow(QWidget):
 
         self.loadbulletins()
         self.loadData()
+        #self.mapperWidget()
+        self.run_mapper()
+        self.thread()
+        
         self.label_3.setText(" Active Group : "+selectedgroup)
-
+        #QtCore.QTimer.singleShot(30000, self.directed)
 
 
     def databasesize(self):
         global statreprwcnt
         global bulletinrwcnt
         global marqueerwcnt
+        global heardrwcnt
+        global dbcounter
         rundirect = 0
         connection_obj = sqlite3.connect('traffic.db3')
 
@@ -537,11 +660,11 @@ class Ui_MainWindow(QWidget):
         if newstatreprows > statreprwcnt:
             statreprwcnt = newstatreprows
             rundirect = 1
-            if rundirect > 0:
-                print("running direct for new statrep")
-                self.directed()
         statreprwcnt = newstatreprows
         #print(str(statreprwcnt)+" "+str(newstatreprows))
+        if rundirect > 0:
+            print("\n \n Executing directed process for new statrep \n \n ")
+            self.directed()
 
         #print("Previous count of Bulletin Rows "+str(bulletinrwcnt))
         cursor_obj.execute("SELECT * FROM bulletins_Data")
@@ -551,11 +674,11 @@ class Ui_MainWindow(QWidget):
         if newbulletinrows > bulletinrwcnt:
             bulletinrwcnt = newbulletinrows
             rundirect =1
-            if rundirect > 0:
-                print("running direct for new bulletin")
-                self.directed()
         bulletinrwcnt = newbulletinrows
         #print(str(bulletinrwcnt)+" "+str(newbulletinrows))
+        if rundirect > 0:
+            print("\n \n Executing directed process for new bulletin \n \n")
+            self.directed()
 
         #print("Previous count of Marquee Rows "+str(marqueerwcnt))
         cursor_obj.execute("SELECT * FROM marquees_Data")
@@ -565,25 +688,39 @@ class Ui_MainWindow(QWidget):
         if newmarqueerows > marqueerwcnt:
             marqueerwcnt = newmarqueerows
             rundirect =1
-            if rundirect > 0:
-                print("running direct for new marquee")
-                self.directed()
         marqueerwcnt = newmarqueerows
         #print(str(marqueerwcnt)+" "+str(newmarqueerows))
-
+        if rundirect > 0:
+            print("\n \n Executing directed process for marquee change \n \n")
+            self.directed()
+        
+        #print("Previous count of Marquee Rows "+str(marqueerwcnt))
+        cursor_obj.execute("SELECT * FROM heard_Data")
+        #print("count of Marquee Rows :" +(str(len(cursor_obj.fetchall()))))
+        newheardrows = (len(cursor_obj.fetchall()))
+        #print("here is the new Marquee row count "+(str(newmarqueerows)))
+        if newheardrows > heardrwcnt:
+            heardrwcnt = newheardrows
+            rundirect =1
+        heardrwcnt = newheardrows
+        #print(str(marqueerwcnt)+" "+str(newmarqueerows))
+        if rundirect > 0:
+            print("\n \n Executing directed process for heard list change \n \n")
+            self.directed()
+        
+        currentcounter = dbcounter+1
+        dbcounter = currentcounter
+        print("Database size executed returned :"+(str(rundirect))+" current count :"+(str(currentcounter)))
         connection_obj.commit()
         connection_obj.close()
-            #self.directed()
         QtCore.QTimer.singleShot(30000, self.databasesize)
 
 
     def mapperWidget(self):
-
         global mapper
+        global data
+        global map_flag
         mapper = QWebEngineView()
-        #print("Cycled main map")
-
-        #print("stopped current map")
         coordinate = (38.8199286, -90.4782551)
         m = folium.Map(
             tiles='Stamen Terrain',
@@ -592,10 +729,16 @@ class Ui_MainWindow(QWidget):
 
         )
 
+        
+        
+        #self.widget = QWebEngineView(self.centralwidget)
+        #self.setObjectName("widget") 
+        #self.gridLayout_2.addWidget(self.widget, 3, 0, 1, 1)
+
         try:
             sqliteConnection = sqlite3.connect('traffic.db3')
             cursor = sqliteConnection.cursor()
-           # print("Connected to SQLite")
+            # print("Connected to SQLite")
             sqlite_select_query = 'SELECT gridlat, gridlong, callsign, date FROM heard_Data;'
             cursor.execute(sqlite_select_query)
             items = cursor.fetchall()
@@ -612,14 +755,14 @@ class Ui_MainWindow(QWidget):
                 %s
                 </p></BODY></HTML>''' % (call, pinstring, utc)
                 iframe = folium.IFrame(html,
-                                       width=160,
-                                       height=70)
+                                     width=160,
+                                     height=70)
 
                 popup = folium.Popup(iframe,
-                                     min_width=100, max_width=160)
+                                        min_width=100, max_width=160)
                 #folium.Marker(location=[glat, glon], popup=popup).add_to(m)
                 folium.CircleMarker(radius=6,fill=True, fill_color="darkblue",
-                 location=[glat, glon], popup=popup, icon=folium.Icon(color="red")).add_to(m)
+                    location=[glat, glon], popup=popup, icon=folium.Icon(color="red")).add_to(m)
 
 
             cursor.close()
@@ -629,31 +772,53 @@ class Ui_MainWindow(QWidget):
         finally:
             if (sqliteConnection):
                 sqliteConnection.close()
-         #       print("The SQLite connection is closed")
+        #       print("The SQLite connection is closed")
         # return map
 
         # folium.Marker(location=[38.655800, -87.274721],popup='<h3 style="color:green;">Marker2</h3>').add_to(m)
         # save map data to data object
         data = io.BytesIO()
         m.save(data, close_file=False)
-        #print("starting fresh map")
+        
 
         #self.gridLayout.addWidget()widget = QWebEngineView()
-        mapper.setHtml(data.getvalue().decode())
-        self.gridLayout_2.addWidget(mapper, 3, 0, 1, 1)
-        #mapper.stop()
+        if map_flag == 1:
+            self.widget.reload()
+            print("\n \n executed map reload \n \n")
+            
+        else:
+            self.widget.setHtml(data.getvalue().decode())
+            map_flag = 0
+            print("\n \n executed map update \n \n")
+        #self.widget.update()
+        
+        
+        #self.gridLayout_2.addWidget(mapper, 3, 0, 1, 1)
         #print("Mapping completed")
-        #mapper.stop()
-        #QtCore.QTimer.singleShot(180000, mapper.stop)
-
-        QtCore.QTimer.singleShot(180000, self.run_mapper)
-
+        #QtCore.QTimer.singleShot(30000, self.widget.deleteLater)
+        #QtCore.QTimer.singleShot(30500, self.mapperWidget)
+        #QtCore.QTimer.singleShot(30000, self.run_mapper)
+    
+    
     def run_mapper(self):
         global mapper
-        mapper.deleteLater()
+        global data
+        global os
+        if "Pi" in OS:
+            #self.mapperWidgetpi()
+            print("\n \n OS is Pi map is removed \n \n ")
+                  
+        else:
+            self.mapperWidget()
+            print("\n \n OS is not Pi \n \n ") 
+        #mapper.deleteLater()
+        #self.widget.deleteLater()
         #print("stopped previous map")
-        self.mapperWidget()
-
+        #self.mapperWidget()
+        #self.widget.reload()
+        #print ("reloaded")
+            
+    
     def loadbulletins(self):
         self.readconfig()
         #self.tableWidget_2 = QtWidgets.QTableWidget(self.centralwidget)
@@ -680,8 +845,11 @@ class Ui_MainWindow(QWidget):
         # self.tableWidget = QtWidgets.QTableWidget()
         self.tableWidget_2.verticalHeader().setVisible(False)
         self.tableWidget_2.sortItems(0, QtCore.Qt.DescendingOrder)
-        self.tableWidget_2.update()
         #self.gridLayout_2.addWidget(self.tableWidget_2, 3, 1, 1, 3)
+
+        #print("Load Bulletins & Marquee Completed")
+        #QtCore.QTimer.singleShot(30000, self.loadbulletins)
+
 
         #print("Load Bulletins & Marquee Completed")
         #QtCore.QTimer.singleShot(30000, self.loadbulletins)
@@ -708,14 +876,16 @@ class Ui_MainWindow(QWidget):
 
     def Operation(self):
         global counter
-        print("time start")
+        now = QDateTime.currentDateTime()
+        displayTxt = (now.toUTC().toString(Qt.ISODate))
+        
+        print("Time Datatreader Start :"+displayTxt)
         counter += 1
-        print("here is the thread counter"+str(counter))
-
-        call(["python", "datareader.py"])
+        print("Thread counter = "+str(counter))
+        call(["python3", "datareader.py"])
 
         #time.sleep(10)
-        print("datareader stopped")
+        #print("Datareader stopped :"+displayTxt)
 
 
     def feed(self):

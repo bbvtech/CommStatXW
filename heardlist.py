@@ -24,7 +24,6 @@ mapper = ""
 
 class Ui_FormHeard(object):
     def setupUi(self, FormHeard):
-
         FormHeard.setObjectName("FormHeard")
         FormHeard.resize(950, 678)
         font = QtGui.QFont()
@@ -158,7 +157,7 @@ class Ui_FormHeard(object):
         #print("Mapping completed")
         self.loadheard()
         #QtCore.QTimer.singleShot(90000, self.mapperWidget)
-        QtCore.QTimer.singleShot(90000, self.run_mapper)
+        #QtCore.QTimer.singleShot(90000, self.run_mapper)
 
     def run_mapper(self):
         global mapper

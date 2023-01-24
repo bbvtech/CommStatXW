@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-
+#!/usr/bin/python
 import os
 import sqlite3
 from configparser import ConfigParser
@@ -18,7 +17,7 @@ serverport = ""
 callsign = ""
 grid = ""
 selectedgroup = ""
-stat_id = ""
+stat_id =  ""
 
 class Ui_FormStatRep(object):
     def setupUi(self, FormStatRep):
@@ -57,6 +56,57 @@ class Ui_FormStatRep(object):
         self.label.setText("")
         self.label.setPixmap(QtGui.QPixmap("statrep-1-6v-top-commstat.png"))
         self.label.setObjectName("label")
+        
+       
+        
+        
+        
+
+        self.lineEditToGrp = QtWidgets.QLineEdit(FormStatRep)
+        self.lineEditToGrp.setGeometry(QtCore.QRect(29, 142, 214, 22))
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(10)
+        self.lineEditToGrp.setFont(font)
+        self.lineEditToGrp.setObjectName("lineEditToGrp")
+        self.lineEditFrom = QtWidgets.QLineEdit(FormStatRep)
+        self.lineEditFrom.setGeometry(QtCore.QRect(281, 141, 213, 22))
+        
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(10)
+        self.lineEditFrom.setFont(font)
+        self.lineEditFrom.setObjectName("lineEditFrom")
+        self.lineEditID = QtWidgets.QLineEdit(FormStatRep)
+        self.lineEditID.setGeometry(QtCore.QRect(28, 193, 354, 22))
+        
+        self.comboBoxPrecedent = QtWidgets.QComboBox(FormStatRep)
+        self.comboBoxPrecedent.setGeometry(QtCore.QRect(534, 143, 152, 22))
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(10)
+        self.comboBoxPrecedent.setFont(font)
+        self.comboBoxPrecedent.setObjectName("comboBoxPrecedent")
+        self.comboBoxPrecedent.addItem('')
+        self.comboBoxPrecedent.addItem('Routine')
+        self.comboBoxPrecedent.addItem('Priority')
+        self.comboBoxPrecedent.addItem('Immediate')
+        self.comboBoxPrecedent.addItem('Flash')
+        
+        
+
+        self.lineEditGrid = QtWidgets.QLineEdit(FormStatRep)
+        self.lineEditGrid.setGeometry(QtCore.QRect(449, 193, 281, 22))
+        
+        
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(10)
+        self.lineEditGrid.setFont(font)
+        self.lineEditGrid.setObjectName("lineEditGrid")
+        
+
+        
         self.comboBoxStatus = QtWidgets.QComboBox(FormStatRep)
         self.comboBoxStatus.setGeometry(QtCore.QRect(30, 244, 130, 22))
         font = QtGui.QFont()
@@ -68,6 +118,19 @@ class Ui_FormStatRep(object):
         self.comboBoxStatus.addItem('Green')
         self.comboBoxStatus.addItem('Yellow')
         self.comboBoxStatus.addItem('Red')
+        
+        self.comboBoxPower = QtWidgets.QComboBox(FormStatRep)
+        self.comboBoxPower.setGeometry(QtCore.QRect(270, 244, 130, 22))
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(10)
+        self.comboBoxPower.setFont(font)
+        self.comboBoxPower.setObjectName("comboBoxPower")
+        self.comboBoxPower.addItem('')
+        self.comboBoxPower.addItem('Green')
+        self.comboBoxPower.addItem('Yellow')
+        self.comboBoxPower.addItem('Red')
+        
         self.comboBoxWater = QtWidgets.QComboBox(FormStatRep)
         self.comboBoxWater.setGeometry(QtCore.QRect(530, 244, 130, 22))
         font = QtGui.QFont()
@@ -79,6 +142,7 @@ class Ui_FormStatRep(object):
         self.comboBoxWater.addItem('Green')
         self.comboBoxWater.addItem('Yellow')
         self.comboBoxWater.addItem('Red')
+        
         self.comboBoxMedical = QtWidgets.QComboBox(FormStatRep)
         self.comboBoxMedical.setGeometry(QtCore.QRect(30, 291, 130, 22))
         font = QtGui.QFont()
@@ -112,6 +176,7 @@ class Ui_FormStatRep(object):
         self.comboBoxTravel.addItem('Green')
         self.comboBoxTravel.addItem('Yellow')
         self.comboBoxTravel.addItem('Red')
+        
         self.comboBoxInternet = QtWidgets.QComboBox(FormStatRep)
         self.comboBoxInternet.setGeometry(QtCore.QRect(30, 338, 130, 22))
         font = QtGui.QFont()
@@ -145,6 +210,7 @@ class Ui_FormStatRep(object):
         self.comboBoxFood.addItem('Green')
         self.comboBoxFood.addItem('Yellow')
         self.comboBoxFood.addItem('Red')
+        
         self.comboBoxCrime = QtWidgets.QComboBox(FormStatRep)
         self.comboBoxCrime.setGeometry(QtCore.QRect(29, 385, 130, 22))
         font = QtGui.QFont()
@@ -178,63 +244,10 @@ class Ui_FormStatRep(object):
         self.comboBoxPolitical.addItem('Green')
         self.comboBoxPolitical.addItem('Yellow')
         self.comboBoxPolitical.addItem('Red')
-        self.comboBoxPrecedent = QtWidgets.QComboBox(FormStatRep)
-        self.comboBoxPrecedent.setGeometry(QtCore.QRect(534, 143, 152, 22))
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        font.setPointSize(10)
-        self.comboBoxPrecedent.setFont(font)
-        self.comboBoxPrecedent.setObjectName("comboBoxPrecedent")
-        self.comboBoxPrecedent.addItem('')
-        self.comboBoxPrecedent.addItem('Routine')
-        self.comboBoxPrecedent.addItem('Priority')
-        self.comboBoxPrecedent.addItem('Immediate')
-        self.comboBoxPrecedent.addItem('Flash')
-        self.lineEditToGrp = QtWidgets.QLineEdit(FormStatRep)
-        self.lineEditToGrp.setGeometry(QtCore.QRect(29, 142, 214, 22))
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        font.setPointSize(10)
-        self.lineEditToGrp.setFont(font)
-        self.lineEditToGrp.setObjectName("lineEditToGrp")
-        self.lineEditFrom = QtWidgets.QLineEdit(FormStatRep)
-        self.lineEditFrom.setGeometry(QtCore.QRect(281, 141, 213, 22))
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        font.setPointSize(10)
-        self.lineEditFrom.setFont(font)
-        self.lineEditFrom.setObjectName("lineEditFrom")
-        self.lineEditID = QtWidgets.QLineEdit(FormStatRep)
-        self.lineEditID.setGeometry(QtCore.QRect(28, 193, 354, 22))
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        font.setPointSize(10)
-        self.lineEditID.setFont(font)
-        self.lineEditID.setObjectName("lineEditID")
-        self.lineEditID.setEnabled(False)
-
-        self.lineEditGrid = QtWidgets.QLineEdit(FormStatRep)
-        self.lineEditGrid.setGeometry(QtCore.QRect(449, 193, 281, 22))
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        font.setPointSize(10)
-        self.lineEditGrid.setFont(font)
-        self.lineEditGrid.setObjectName("lineEditGrid")
-        self.textBrowser = QtWidgets.QTextBrowser(FormStatRep)
-        self.textBrowser.setGeometry(QtCore.QRect(17, 530, 776, 230))
-        self.textBrowser.setSource(QtCore.QUrl("file:///C:/Users/dan/PycharmProjects/window/CommStattStatrep_V1.6.html"))
-        self.textBrowser.setObjectName("textBrowser")
-        self.comboBoxPower = QtWidgets.QComboBox(FormStatRep)
-        self.comboBoxPower.setGeometry(QtCore.QRect(270, 244, 130, 22))
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        font.setPointSize(10)
-        self.comboBoxPower.setFont(font)
-        self.comboBoxPower.setObjectName("comboBoxPower")
-        self.comboBoxPower.addItem('')
-        self.comboBoxPower.addItem('Green')
-        self.comboBoxPower.addItem('Yellow')
-        self.comboBoxPower.addItem('Red')
+        
+        
+        
+        #put above this line 
         self.lineEdit = QtWidgets.QLineEdit(FormStatRep)
         self.lineEdit.setGeometry(QtCore.QRect(30, 438, 606, 22))
         font = QtGui.QFont()
@@ -242,6 +255,22 @@ class Ui_FormStatRep(object):
         font.setPointSize(10)
         self.lineEdit.setFont(font)
         self.lineEdit.setObjectName("lineEdit")
+        
+        
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(10)
+        self.lineEditID.setFont(font)
+        self.lineEditID.setObjectName("lineEditID")
+        self.lineEditID.setEnabled(False)
+        
+        self.textBrowser = QtWidgets.QTextBrowser(FormStatRep)
+        self.textBrowser.setGeometry(QtCore.QRect(17, 530, 776, 230))
+        self.textBrowser.setSource(QtCore.QUrl("CommStatStatrep_V1.6.html"))
+        self.textBrowser.setObjectName("textBrowser")
+        
+        
+        
         self.label.raise_()
         self.comboBoxTravel.raise_()
         self.comboBoxCivil.raise_()
@@ -267,8 +296,9 @@ class Ui_FormStatRep(object):
 
         self.retranslateUi(FormStatRep)
         QtCore.QMetaObject.connectSlotsByName(FormStatRep)
-
+        
         self.find_statrep_id()
+
         self.getConfig()
         self.serveripad = serverip
         self.servport = int(serverport)
@@ -299,6 +329,7 @@ class Ui_FormStatRep(object):
         global grid
         global callsign
         global selectedgroup
+        global stat_id
         if os.path.exists("config.ini"):
             config_object = ConfigParser()
             config_object.read("config.ini")
@@ -317,6 +348,7 @@ class Ui_FormStatRep(object):
             self.lineEditToGrp.setText(selectedgroup)
             self.lineEditGrid.setText(grid)
             randnum = random.randint(100, 999)
+            #self.lineEditID.setText(str(randnum))
             self.lineEditID.setText(stat_id)
 
 
@@ -595,7 +627,7 @@ class Ui_FormStatRep(object):
         datafile.close()
 
         self.closeapp()
-
+        
     def find_statrep_id(self):
         global stat_id
         randnum = random.randint(100, 999)
@@ -612,9 +644,9 @@ class Ui_FormStatRep(object):
 
             for item in items:
                 srid = item[0]
-                print(item)
+                #print(item)
                 if stat_id in item:
-                    print(" random number failed, recycling")
+                    print("StatRep random number failed, recycling and trying again")
                     cursor.close()
                     self.find_statrep_id()
 
@@ -628,6 +660,7 @@ class Ui_FormStatRep(object):
             if (sqliteConnection):
                 sqliteConnection.close()
          #       print("The SQLite connection is closed")
+
 
     def closeapp(self):
         self.MainWindow.close()

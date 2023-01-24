@@ -21,7 +21,7 @@ serverport = ""
 callsign = ""
 grid = ""
 selectedgroup = ""
-
+bull_id =""
 
 
 
@@ -64,6 +64,8 @@ class Ui_FormBull(object):
         self.label = QtWidgets.QLabel(FormBull)
         self.label.setGeometry(QtCore.QRect(162, 43, 523, 16))
         self.label.setObjectName("label")
+        
+        self.find_bull_id()
 
 
         self.retranslateUi(FormBull)
@@ -125,6 +127,7 @@ class Ui_FormBull(object):
     def transmit(self):
         global selectedgroup
         global callsign
+        global bull_id
 
         comments1 = format(self.lineEdit_2.text())
         comments = re.sub("[^A-Za-z0-9*\-\s]+", " ", comments1)
@@ -143,7 +146,8 @@ class Ui_FormBull(object):
 
         group = "@"+selectedgroup
         randnum = random.randint(100, 999)
-        idrand = str(randnum)
+        #idrand = str(randnum)
+        idrand = bull_id
 
 
         message = ""+group + " MSG ," + idrand + "," + comments + ",{^%}"
@@ -178,6 +182,40 @@ class Ui_FormBull(object):
         datafile.write("blank line \n" )
         datafile.close()
         self.closeapp()
+        
+    def find_bull_id(self):
+        global bull_id
+        randnum = random.randint(100, 999)
+        bull_id = (str(randnum))
+        #stat_id = "902"
+
+        try:
+            sqliteConnection = sqlite3.connect('traffic.db3')
+            cursor = sqliteConnection.cursor()
+           # print("Connected to SQLite")
+            sqlite_select_query = 'SELECT idnum FROM bulletins_Data;'
+            cursor.execute(sqlite_select_query)
+            items = cursor.fetchall()
+
+            for item in items:
+                idnum = item[0]
+                #print(item)
+                if bull_id in item:
+                    print("Bulletin random number failed, recycling and trying again")
+                    cursor.close()
+                    self.find_bull_id()
+
+
+
+            cursor.close()
+
+        except sqlite3.Error as error:
+            print("Failed to read data from sqlite table", error)
+        finally:
+            if (sqliteConnection):
+                sqliteConnection.close()
+         #       print("The SQLite connection is closed")
+    
 
     def closeapp(self):
         self.MainWindow.close()

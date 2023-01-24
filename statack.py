@@ -3,14 +3,14 @@ import sqlite3
 from configparser import ConfigParser
 import re
 from time import strftime
-from PyQt5.QtWebEngineWidgets import QWebEngineView
+#from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtCore import QDateTime, Qt
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5 import QtCore, QtGui, QtWidgets
 import random
 import datetime
 import js8callAPIsupport
-import folium
+#import folium
 import sqlite3
 import io
 
@@ -70,7 +70,7 @@ class Ui_FormStatack(object):
         self.servport = int(serverport)
         self.api = js8callAPIsupport.js8CallUDPAPICalls((self.serveripad),
                                                         int(self.servport))
-        self.pushButton_2.clicked.connect(self.MainWindow.close)
+        self.pushButton_2.clicked.connect(self.closeapp)
         self.pushButton.clicked.connect(self.transmit)
 
 
@@ -171,6 +171,7 @@ class Ui_FormStatack(object):
         global selectedgroup
         global callsign
         global acklist
+        
 
         comments1 = "StatRep Received   "+ acklist
         comments = re.sub("[^A-Za-z0-9*\-\s]+", " ", comments1)
@@ -205,7 +206,11 @@ class Ui_FormStatack(object):
         self.closeapp()
 
     def closeapp(self):
-        self.MainWindow.close()
+        #self.MainWindow.close()
+        global acklist
+        acklist = ""
+        self.lineEdit.setText("")
+        
 
     def sendMessage(self, messageType, messageText):
         self.api.sendMessage(messageType, messageText)
