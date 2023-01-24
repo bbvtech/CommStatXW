@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 # CommStatX Ver 0.09 Released 01/24/23
 <h3 style="color: #4485b8;">CommStatX Ver 0.09 add on software for JS8Call groups&nbsp;&nbsp;<img src="https://github.com/W5DMH/CommStatX/blob/main/CommStatXBeta.png?raw=true" alt="CommStatX 0.09" width="300" height="170" /></h3>
 
 CommstatX is a Python version of the CommStat software <b>designed to run on Mint 20.3 AND Raspberry Pi4 64bit Bullseye/b><br>
+=======
+# CommStatXW 0.062 for Win10 & Win 11 Released 01/19/23
+<h3 style="color: #4485b8;">CommStatXW Ver 0.062 add on software for JS8Call groups&nbsp;&nbsp;<img src="https://github.com/W5DMH/CommStatXR/blob/main/CommStatXBeta.png?raw=true" alt="CommStatXW 0.062" width="300" height="170" /></h3>
+>>>>>>> parent of c7f4cb7 (Update Readme.md)
 <br><br>
 NOTE : If you are upgrading, first delete your existing commstatx folder and then skip right to the <br>
 Commstatx INSTALL PROCEDURE
@@ -33,7 +38,13 @@ like /home/dan/.local/share/JS8Call    do not enter the trailing slash or the fi
 After that is complete you should be able to run CommStatx by retyping:<br>
 <b> type : python3 commstatx.py </b>
 
+<<<<<<< HEAD
 <br><br><br>
+=======
+ 
+<h3>Here is a link to the archive file:&nbsp;<a href="https://github.com/W5DMH/CommStatXW/raw/main/commstatx.zip" target="_blank" rel="noopener">CommStatXW 0.062 for Win10 & Win11 </a></h3>
+<hr />
+>>>>>>> parent of c7f4cb7 (Update Readme.md)
 
 Get CommStat Support at: <br>
 https://groups.io/g/CommStat
