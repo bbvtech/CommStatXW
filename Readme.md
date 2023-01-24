@@ -6,7 +6,7 @@
 NOTE : Saavy users can "git clone https://github.com/W5DMH/CommStatXW.git" but you will need to rename folder name back to commstatx
 <BR>
  
-<h3>Here is a link to the archive file:&nbsp;<a href="https://github.com/W5DMH/CommStatXW/raw/main/commstatx.zip" target="_blank" rel="noopener">CommStatXW 0.063 for Win10 & Win11 </a></h3>
+<h3>Here is a link to the archive file:&nbsp;<a href="https://github.com/W5DMH/CommStatXW/raw/main/commstatx.zip" target="_blank" rel="noopener">CommStatXW 0.09 for Win10 & Win11 </a></h3>
 <hr />
 Get CommStat Support at: <br>
 
