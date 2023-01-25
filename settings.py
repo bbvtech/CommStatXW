@@ -361,14 +361,14 @@ class Ui_FormSettings(object):
             msg.setWindowFlag(QtCore.Qt.WindowStaysOnTopHint)
             x = msg.exec_()  # this will show our messagebox
             return
-        if (bool(re.match('[A-Z]+$', group2))) == False:
-            msg = QMessageBox()
-            msg.setWindowTitle("CommStatX error")
-            msg.setText("Capital letters required for Group 2!")
-            msg.setIcon(QMessageBox.Critical)
-            msg.setWindowFlag(QtCore.Qt.WindowStaysOnTopHint)
-            x = msg.exec_()  # this will show our messagebox
-            return
+        #if lengroup2 > 0 and (bool(re.match('[A-Z]+$', group2))) == False:
+        #    msg = QMessageBox()
+        #    msg.setWindowTitle("CommStatX error")
+        #    msg.setText("Capital letters required for Group 2!")
+        #    msg.setIcon(QMessageBox.Critical)
+        #    msg.setWindowFlag(QtCore.Qt.WindowStaysOnTopHint)
+        #    x = msg.exec_()  # this will show our messagebox
+        #    return
         
         if len(grid) < 4:
             msg = QMessageBox()
