@@ -2,8 +2,6 @@
 <h3 style="color: #4485b8;">CommStatX Ver 0.091 add on software for JS8Call groups&nbsp;&nbsp;<img src="https://github.com/W5DMH/CommStatX/blob/main/CommStatXBeta.png?raw=true" alt="CommStatX 0.091" width="300" height="170" /></h3>
 
 CommstatX is a Python version of the CommStat software <b>designed to run on Mint 20.3 AND Raspberry Pi4 64bit Bullseye</b><br>
-<br>
- <b>Commstatx INSTALL PROCEDURE</B>
 <br><br>
 <b>NOTE : If you are upgrading, first delete your existing commstatx folder, then skip the install and just run Commstatx<br></b>
 <br>
@@ -14,8 +12,8 @@ CommstatX is a Python version of the CommStat software <b>designed to run on Min
 
 NOTE : Saavy users can "git clone https://github.com/W5DMH/CommStatXW.git" but you will need to rename folder name back to commstatx
 <br>
- To install, simply unzip the zipped folder below then: 
- <b>Type : cd commstatx 
+ To install, simply unzip the zipped folder below then: <br>
+ <b>Type : cd commstatx <br>
   Type : python install.py </b> (watch for errors here)(upgrading users can skip this step) <br><br>
  You should get your settings popup, complete the settings then :
  <b>Type : python commstatx.py
