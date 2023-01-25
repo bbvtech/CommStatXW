@@ -323,7 +323,7 @@ class Ui_MainWindow(QWidget):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "CommStatX Ver 0.09"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "CommStatX Ver 0.091"))
         self.label.setText(_translate("MainWindow", "TextLabel Marquee"))
         self.label_2.setText(_translate("MainWindow", "TextLabel Clock"))
         self.menuEXIT.setTitle(_translate("MainWindow", "MENU"))
@@ -356,7 +356,7 @@ class Ui_MainWindow(QWidget):
             OS = "pi"
             bull1 = 0
             bull2 = 4
-    #sudo apt install ./python3-pyqt5.qtwebengine_5.15.2-2_arm64.deb
+    #sudo apt install ./python-pyqt5.qtwebengine_5.15.2-2_arm64.deb
         else:
             print("This is not 64bit PiOS")
             OS = "Mint"
@@ -493,7 +493,7 @@ class Ui_MainWindow(QWidget):
         #dialog.ui.setupUi(dialog)
         #dialog.exec_()
         #dialog.show()
-        call(["python3", "members.py"])
+        call(["python", "members.py"])
 
     def heard_window(self):
         #dialog = QtWidgets.QDialog()
@@ -501,7 +501,7 @@ class Ui_MainWindow(QWidget):
         #dialog.ui.setupUi(dialog)
         #dialog.exec_()
         #dialog.show()
-        call(["python3", "heardlist.py"])
+        call(["python", "heardlist.py"])
 
     def roster_window(self):
         #dialog = QtWidgets.QDialog()
@@ -509,7 +509,7 @@ class Ui_MainWindow(QWidget):
         #dialog.ui.setupUi(dialog)
         #dialog.exec_()
         #dialog.show()
-        call(["python3", "roster.py"])
+        call(["python", "roster.py"])
 
 
     def statack_window(self):
@@ -882,7 +882,7 @@ class Ui_MainWindow(QWidget):
         print("Time Datatreader Start :"+displayTxt)
         counter += 1
         print("Thread counter = "+str(counter))
-        call(["python3", "datareader.py"])
+        call(["python", "datareader.py"])
 
         #time.sleep(10)
         #print("Datareader stopped :"+displayTxt)

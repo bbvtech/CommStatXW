@@ -6,14 +6,14 @@ import os
 
 
 def runsettings():
-    subprocess.call("python3 settings.py", shell=True)
+    subprocess.call(["python3", "settings.py"])
 
 
 def install(package):
 
     
     try:
-        subprocess.check_call(["python3", "-m", "pip", "install", package])
+        subprocess.check_call([sys.executable, "-m", "pip", "install", package])
     except subprocess.CalledProcessError as e:
         #print("this is the except install error: "+str(e.returncode))
         if e.returncode > 0:
@@ -38,7 +38,7 @@ def test_python():
                 #raise Exception("Wrong Python cannot continue")
                 sys.exit()
             else:
-                print("Appropriate version of Python found, continuing installation")
+                print("Appropriate version of Python found : Python 3."+str(sys.version_info[1])+", continuing installation")
 
         except :
             print("Exception while testing Python version, cannot continue installation")
