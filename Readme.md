@@ -1,7 +1,7 @@
 # CommStatX Ver 0.091 Released 01/25/23
 <h3 style="color: #4485b8;">CommStatX Ver 0.091 add on software for JS8Call groups&nbsp;&nbsp;<img src="https://github.com/W5DMH/CommStatX/blob/main/CommStatXBeta.png?raw=true" alt="CommStatX 0.091" width="300" height="170" /></h3>
 
-CommstatX is a Python version of the CommStat software <b>designed to run on Mint 20.3 AND Raspberry Pi4 64bit Bullseye/b><br>
+CommstatX is a Python version of the CommStat software <b>designed to run on Mint 20.3 AND Raspberry Pi4 64bit Bullseye</b><br>
 <br>
  <b>Commstatx INSTALL PROCEDURE</B>
 <br><br>
