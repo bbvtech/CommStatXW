@@ -31,3 +31,4 @@ https://groups.io/g/CommStat
 I must give credit to m0iax for his JS8CallAPISupport Script as that is what makes the transmitting possible.See the rest of his JS8Call Tools here : https://github.com/m0iax
 <br>
 
+ 
