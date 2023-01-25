@@ -15,7 +15,7 @@ NOTE : Saavy users can "git clone https://github.com/W5DMH/CommStatXW.git" but y
  To install, simply unzip the zipped folder below then: <br>
  <b>Type : cd commstatx <br>
   Type : python install.py </b> (watch for errors here)(upgrading users can skip this step) <br><br>
- You should get your settings popup, complete the settings then :
+ You should get your settings popup, complete the settings then :<br>
  <b>Type : python commstatx.py
 
 
