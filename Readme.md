@@ -5,7 +5,7 @@ CommstatX is a Python version of the CommStat software <b>designed to run on Min
 <br>
  <b>Commstatx INSTALL PROCEDURE</B>
 <br><br>
-<b>NOTE : If you are upgrading, first delete your existing commstatx folder and then skip right to the <br></b>
+<b>NOTE : If you are upgrading, first delete your existing commstatx folder, then skip the install and just run Commstatx<br></b>
 <br><br>
 
 <b>Commstatx INSTALL PROCEDURE</B>
