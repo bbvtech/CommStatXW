@@ -289,7 +289,7 @@ class Ui_FormRoster(object):
 
             return
         group = "@"+selectedgroup
-        message = "" + group + " MSG ," + comments + ""
+        message = "" + group + " " + comments + ""
         #message = ""+group + " ," + comments + ""
         messageType = js8callAPIsupport.TYPE_TX_SEND
         messageString = message
